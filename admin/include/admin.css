@@ -1,0 +1,152 @@
+<style type="text/css">
+
+/* hide from ie on mac \*/
+html {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #FFF;
+	color:#000;
+	font-family:verdana;
+	font-size:0.8em;
+}
+		
+a {
+	color: #3A0;
+}
+
+.textcenter {
+	text-align: center;
+	padding-top: 150px;
+	margin-left: 27%;
+	margin-right:27%
+}
+
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+a:link.boldbuttons, a:visited.boldbuttons, a:hover.boldbuttons, a:active.boldbuttons{
+color: white; /*button text color*/
+}
+
+a.boldbuttons {
+background: transparent url('images/roundedge-green-left.gif') no-repeat top left;
+display: block;
+float: left;
+line-height: 30px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 30px) */
+height: 30px; /* Height of button background height */
+padding-left: 8px; /* Width of left menu image */
+text-decoration: none;
+color: white; /*button text color*/
+}
+
+a.boldbuttons span{
+background: transparent url('images/roundedge-green-right.gif') no-repeat top right;
+display: block;
+font: bold 20px Arial; /* Change 13px as desired */
+padding:4px 11px 4px 2px; /*Set 10px to be equal or greater than'padding-left' value above*/
+}
+
+a:hover.boldbuttons{ /* Hover state CSS */
+text-decoration: underline;
+}
+
+input.boldbuttons {
+background: transparent url('images/roundedge-green-left.gif') no-repeat top left;
+display: block;
+float: left;
+line-height: 30px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 30px) */
+height: 30px; /* Height of button background height */
+padding-left: 8px; /* Width of left menu image */
+text-decoration: none;
+color: white; /*button text color*/
+}
+
+input.boldbuttons span{
+background: transparent url('images/roundedge-green-right.gif') no-repeat top right;
+display: block;
+font: bold 20px Arial; /* Change 13px as desired */
+padding:4px 11px 4px 2px; /*Set 10px to be equal or greater than'padding-left' value above*/
+}
+
+
+.buttonwrapper{ /* Container you can use to surround a CSS button to clear float */
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+width: 40%;
+}
+
+.buttonwrapper2{ /* Container you can use to surround a CSS button to clear float */
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+width: 100%;
+padding-left: 45%;
+}
+
+#newgallery p {
+	margin: 2px 0;
+}
+
+#newgallery fieldset {
+	margin-bottom: 10px;
+	border: #000 1px solid;
+	background-color: #8D3;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+#newgallery fieldset:hover {
+	background-color: #AF3;
+}
+
+#newgallery fieldset, #newgallery legend {
+	padding: 0 10px;
+	font-size: 1.2em;
+}
+
+#newgallery legend a {
+	text-decoration: none;
+	color : #000;
+}
+
+#newgallery label {
+	display: block;
+	width:25%;
+	float: left;
+	padding-right:1%;
+	text-align: right;
+}
+
+#newgallery label.obl{
+	font-weight:bold;
+}
+
+#newgallery input  , #newgallery textarea  {
+	margin-left: 1%;
+	width: 57%;
+}
+
+
+#newgallery input:hover , #newgallery input:focus , #newgallery input:textarea{
+	background-color: #DDEEFF;
+}
+
+#newgallery input[type="submit"] {
+	width: 23%;
+}
+
+#newgallery input[type="submit"]:hover {
+	background-color: #6C0;
+}
+
+#newgallery input.obl  , #newgallery textarea.obl{
+background-color: #FFF8C6;
+}
+
+#newgallery input.fac   , #newgallery textarea.fac{
+background-color: #FFF;
+}
+</style>
