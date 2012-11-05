@@ -62,7 +62,8 @@ if(!empty($dossier))
 			echo "/".$lien." \">$lien</a>";
 			
 			if ($lien >0 && $lien <=12) { // Si c'est un mois, on propose les options d'upload et de regeneration du xml
-			  echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"./upload/index.php?rep=/".str_replace($_SERVER['DOCUMENT_ROOT']."\\","",$dir_nom)."/".$lien."\" target=\"_blank\"><img src=\"include/images/upload_icon.png\"></img></a>";
+//			  echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"./upload/index.php?rep=/".str_replace($_SERVER['DOCUMENT_ROOT']."\\","",$dir_nom)."/".$lien."\" target=\"_blank\"><img src=\"include/images/upload_icon.png\"></img></a>";
+			  echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\"><img src=\"include/images/upload_icon.png\"></img></a>";
 			  echo "&nbsp;<a href=\"#\" onclick=\"g_update('".str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom)."/".$lien."');\"><img src=\"include/images/reload.png\"></img></a>";
 			  }	
 			  
