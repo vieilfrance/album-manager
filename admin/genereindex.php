@@ -44,6 +44,7 @@ closedir($directory);
 function genereAlbumIndex($name,$base,$dossier){ // la génération de l'index des années
 	$directoryList="";
 	$path=$base."/".$name;
+	arsort($dossier);
 	
 	foreach ($dossier as $d) {
 	$directoryList.="\n<h2><a href=\"/".substr($_GET['rep'],1)."/".$d."\">$d</a></h2>";
@@ -78,7 +79,7 @@ function genereAlbumIndex($name,$base,$dossier){ // la génération de l'index des
 function genereSubAlbumIndex($name,$base,$dossier){ // la génération de l'index des mois
 	$directoryList="";
 	$path=$base.$_GET['rep'];
-	echo $path;
+	asort($dossier);
 	
 	$tab_mois = array( '01' => 'Janvier',
 					   '02' => 'Fevrier',
