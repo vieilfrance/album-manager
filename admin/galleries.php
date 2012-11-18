@@ -32,6 +32,7 @@ $galleriesCount=count($galleries); // on compte le nombre d'albums
 //////////////////////////////////////////////////////
 function directory($dir , $dir_nom)
 {
+global $self;
 $fichier= array(); // on déclare le tableau contenant le nom des fichiers
 $dossier= array(); // on déclare le tableau contenant le nom des dossiers
 $unwanted= array('.','..','images','original','thumbs','admin','contact','svcore','easyupload'); // on déclare le nom des repertoires qui devront être exclus
@@ -62,16 +63,14 @@ if(!empty($dossier))
 			echo "/".$lien." \">$lien</a>";
 			
 			if ($lien >0 && $lien <=12) { // Si c'est un mois, on propose les options d'upload et de regeneration du xml
-//			  echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"./upload/index.php?rep=/".str_replace($_SERVER['DOCUMENT_ROOT']."\\","",$dir_nom)."/".$lien."\" target=\"_blank\"><img src=\"include/images/upload_icon.png\"></img></a>";
 			  echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\"><img src=\"include/images/upload_icon.png\"></img></a>";
-			  echo "&nbsp;<a href=\"#\" onclick=\"g_update('".str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom)."/".$lien."');\"><img src=\"include/images/reload.png\"></img></a>";
-			  echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom)."/".$lien."','".$_POST['dirr']."','gallery');\" title=\"Actualiser l'index\"><img src=\"include/images/upd_index.png\"></img></a>";
+			  echo "&nbsp;<a href=\"#\" onclick=\"g_update('".str_replace($self,"",str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom))."/".$lien."');\"><img src=\"include/images/reload.png\"></img></a>";
+			  echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($self,"",str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom))."/".$lien."','".$_POST['dirr']."','gallery');\" title=\"Actualiser l'index\"><img src=\"include/images/upd_index.png\"></img></a>";
 			  }	
-			  
 			if (preg_match('/[0-9][0-9][0-9][0-9]/', $lien)) // Si c'est une annee, on propose la fonction d'ajout d'un mois
 			{ 
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"mkdir.php?rep=".str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom)."/".$lien."&gallery=".$_POST['dirr']."\" title=\"Ajouter un sous-repertoire a ".$lien."\">+</a>";
-			echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom)."/".$lien."','".$_POST['dirr']."','subalbum');\"  title=\"Actualiser l'index\"><img src=\"include/images/upd_index.png\"></img></a>";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"mkdir.php?rep=".str_replace($self,"",str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom))."/".$lien."&gallery=".$_POST['dirr']."\" title=\"Ajouter un sous-repertoire a ".$lien."\">+</a>";
+			echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($self,"",str_replace($_SERVER['DOCUMENT_ROOT'],"",$dir_nom))."/".$lien."','".$_POST['dirr']."','subalbum');\"  title=\"Actualiser l'index\"><img src=\"include/images/upd_index.png\"></img></a>";
 			}
 			echo "</li>\n";
 			
@@ -125,7 +124,7 @@ if (isset($_POST['dirr']))
 	$dirr_nom=$base."/".$_POST['dirr'];
 	$directory = opendir($dirr_nom) or die('Erreur de listage : le répertoire n\'existe pas'); // on ouvre le contenu du dossier courant
 
-	echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($_SERVER['DOCUMENT_ROOT'],"",$dirr_nom)."','".$dirr."','album');\"  title=\"Actualiser l'index\"><img src=\"include/images/upd_index.png\"></img></a>";
+	echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($self,"",str_replace($_SERVER['DOCUMENT_ROOT'],"",$dirr_nom))."','".$dirr."','album');\"  title=\"Actualiser l'index\"><img src=\"include/images/upd_index.png\"></img></a>";
 	
 	directory($directory , $dirr_nom);
 	

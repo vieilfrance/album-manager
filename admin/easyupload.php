@@ -17,7 +17,6 @@ $self = mb_substr($self,0,-mb_strlen(strrchr($self,"/"))); //suppression du nom 
 $self = mb_substr($self,0,-mb_strlen(strrchr($self,"/"))); // idem, auquel on a enlevé le dernier repertoire. Vu qu'on est dans admin, on trouve le reperoitre de base des galleries
 $base = $root.$self; // collage du document root avec le/les repertoires pour atteindre le fichier executé
 
-//$rep=$_SERVER['DOCUMENT_ROOT'].$_GET['rep'];
 $rep=$_SERVER['DOCUMENT_ROOT'];
 $urlbase=$_SERVER['SERVER_NAME'];
 $portbase=$_SERVER['SERVER_PORT'];
@@ -111,7 +110,6 @@ $tmpsortie="";
 $urlrepertoire=$urlbase.":".$portbase."/".$self."/".$gallery;
 
 $xmlgallery_array=array();
-//echo "<br/> listing de ".$repertoire."/easyupload";
 
 if (is_dir($repertoire."/easyupload")) // Test s'il s'agit d'un repertoire
 	{
@@ -184,45 +182,19 @@ if (is_dir($repertoire."/easyupload")) // Test s'il s'agit d'un repertoire
 	}
 
 $nbfichier=sizeof($date);
-//print_r($nom);
-
-
-/*
-echo "Galleries : ";
-print_r($galleries);
-echo "Repertoires : ";
-print_r($directories);
-
-$galleries=array_unique($galleries);
-$directories=array_unique($directories);
-
-echo "Apres doublon :<br/>";
-echo "Galleries : ";
-print_r($galleries);
-echo "Repertoires : ";
-print_r($directories);
-*/
 
 for ($i=0 ; $i<sizeof($galleries) ; $i++) // on boucle sur la liste des albums correspondant aux photos à intégrer (extrait des exifs)
-//for ($i=0 ; $i<$nbfichier ; $i++) // on boucle sur la liste des fichiers
 {
-//echo $nom[$i]." g : ".$galleries[$i]." rep : ".$directories[$i];
-//echo "===>".strstr($repertoire."/".$galleries[$i],$root)."<br/>";
-//echo "====>".str_replace($root,"",$repertoire."/".$galleries[$i]);
 if (!file_exists($repertoire."/".$galleries[$i])) // Est-ce que l'album existe ? 
 	{ // NON
 	// on crée le repertoire des années
-//	echo "on crée le repertoire ".$repertoire."/".$galleries[$i];
 
 echo "album inexistant : ".$repertoire."/".$galleries[$i]; //album = année	
 	$title=$galleries[$i];
 	mkdir($repertoire."/".$galleries[$i], 0777); // On crée le repertoire
 	// on crée un index.php vide dans le repertoire
-//	$fp=fopen("./base/index2.php",'rb') or die("Fichier manquant");
-//	$indexcontent=fread($fp, filesize("./base/index2.php"));
 	$fp=fopen($base."/admin/base/index2.php",'rb') or die("Fichier ".$base."/admin/base/index2.php manquant en lecture"); // recupération du fichier de base
 	$indexcontent=fread($fp, filesize($base."/admin/base/index2.php"));
-//	$indexcontent="";
 	$indexcontent=str_replace('@@REP@@',$gallery,$indexcontent); // remplacement des infomrations parametrables
 	fclose($fp);
 	$fp=fopen($repertoire."/".$galleries[$i]."/index.php",'wb') or die("Fichier ".$repertoire."/".$galleries[$i]."/index.php manquant en ecriture"); // copie dans le bon repertoire
@@ -231,37 +203,8 @@ echo "album inexistant : ".$repertoire."/".$galleries[$i]; //album = année
 	
 	// ensuite on met à jour l'index global qui liste les années
     // Il faut mettre à jour le fichier index listant les galleries (dont celle-ci). Si il n'existe pas il faut le créer
-	
-	if (file_exists($repertoire."/index.php")) 
-		{ // OUI
-		//S'il existe on le met a jour
-		// TODO prévoir que l'on mette à jour une année qui ne suis pas l'année précédente (ex: 2010, 2012 ouis 2011)
-		$text=fopen($repertoire."/index.php",'a+') or die("Fichier ".$repertoire."/index.php manquant");
-		$contents = '';
-		while (!feof($text)) 
-			{
-			$contents .= fread($text, 8192);
-			}
-		$position=strrpos($contents,"<br/><br/>");
-		$position=$position+strlen("<br/><br/>");
-		
-		$longeur=strlen($contents)-$position;
-		$str1=substr($contents,0,$position)."\n<h2>";
-		$str1.="<a href=\"".str_replace($root,"",$repertoire."/".$galleries[$i])."\">$title</a></h2>\n";
-		$str1.=substr($contents,$position,$longeur);
-		fclose($text);
-		
-		$text2=fopen($repertoire."/index.php",'w+') or die("Fichier ".$repertoire."/index.php manquant");
-		fwrite($text2,$str1);
-		fclose($text2);
-		
-		}
-	//sinon on le crée
-	else 
-		{
-		// TODO : hmm y a t'il besoin de cela ? quand est-ce que l'on crée l'index des années ? au moment de la création de la gallerie non ? 
-		}
-
+	$dossier=listeDirectory($repertoire);
+	genereAlbumIndex($gallery,$base,$dossier,"",$self);
 	}
 else
 	{
@@ -304,6 +247,9 @@ foreach($directories as $job_album => $job_album_array)
 			// Ajout de l'index du mois
 			$file = $base.'/admin/base/index.php';
 			copy($file, $repertoire."/".$job_album."/".$job_dir."/index.php");
+
+			// on récupère la liste des dossiers (et donc des années ou des mois)
+			$dossier=listeDirectory($repertoire."/".$job_album);
 			
 			//ouverture en lecture et modification de l'index du mois
 			$text=fopen($repertoire."/".$job_album."/".$job_dir."/index.php",'r') or die("Fichier index manquant en lecture");
@@ -311,54 +257,17 @@ foreach($directories as $job_album => $job_album_array)
 			$contenuMod=str_replace('<title>','<title>'.$title, $contenu);
 			$contenuMod=str_replace('@@REP@@',$gallery,$contenuMod);
 			fclose($text);
+			
+			//ouverture en écriture			
 			$text2=fopen($repertoire."/".$job_album."/".$job_dir."/index.php",'w+') or die("Fichier index manquant en ecriture");
 			fwrite($text2,$contenuMod);
 			fclose($text2);
 
-			// on s'occupe du header de l'année maintenant  (liste des mois existants)
-			if (file_exists($repertoire."/".$job_album."/header.php")) 
-				{
-				//S'il existe on le met a jour
-				// TODO prévoir que l'on mette à jour un mois qui ne suis pas le mois précédent (ex: Mai, puis juillet , puis juin)
-				$text=fopen($repertoire."/".$job_album."/header.php",'a+') or die("Fichier header manquant en lecture");
-				fwrite($text,$contenu_header);
-				fclose($text);
-				}
-			//sinon on le crée
-			else 
-				{
-				$text=fopen($repertoire."/".$job_album."/header.php",'w+') or die("Fichier header manquant en ecriture");
-				fwrite($text,"<a href=\"..\">Retour</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$contenu_header);
-				fclose($text);
-				}
-			// mise à  jour de l'index des mois de l'année
-			if (file_exists($repertoire."/".$job_album."/index.php")) 
-				{
-				//S'il existe on le met a jour
-				// TODO prévoir que l'on mette à jour un mois qui ne suis pas le mois précédent (ex: Mai, puis juillet , puis juin)
-				$text=fopen($repertoire."/".$job_album."/index.php",'a+') or die("Fichier index manquant en lecture");
-				$contents = '';
-				while (!feof($text)) 
-					{
-					$contents .= fread($text, 8192);
-					}
-				$position=strrpos($contents,"<br/>");
-				$position=$position+strlen("<br/>");
-		
-				$longeur=strlen($contents)-$position;
-				$str1=substr($contents,0,$position)."\n<h2><a href=\"".str_replace($root,"",$repertoire."/".$job_album."/".$job_dir)."\">$title</a></h2>".substr($contents,$position,$longeur);
-				fclose($text);
-		
-				$text2=fopen($repertoire."/".$job_album."/index.php",'w+') or die("Fichier index manquant en ecriture");
-				fwrite($text2,$str1);
-				fclose($text2);
-				}
-			//sinon on le crée
-			else 
-				{
-		// TODO : hmm y a t'il besoin de cela ? quand est-ce que l'on crée l'index des années ? au moment de la création de la gallerie non ? 
-				}
+			// on s'occupe du header maintenant
+			genereHeader($gallery,$base,$dossier,"/".$gallery."/".$job_album,$self);
 
+			// et enfin on s'occuppe de l'index de l'année
+			genereSubAlbumIndex($gallery,$base,$dossier,"/".$gallery."/".$job_album,$self);
 			}
 		else
 			{
@@ -375,10 +284,8 @@ if ($nbfichier>2) // TODO : là pour le moment j'ai bloqué le process à 2 photos 
 for ($i=0 ; $i<$nbfichier ; $i++) // on boucle sur la liste des fichiers
 {
 copycoll($nom[$i], $repertoire."/easyupload/", $repertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i].'/original/'); // Copie dans le repertoire Original
-//copycoll($nom[$i], $repertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i].'/original/', $repertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i].'/images/'); // Copie dans le repertoire Image
 checkorientation($nom[$i], $repertoire, $repertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i], $urlrepertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i]); // Mise à jour de l'orientation de l'image
 
-//sizeandcopy($nom[$i], $repertoire."/".$galleries[$i]."/".$directories[$i]);
 sizeandcopy($nom[$i], $repertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i], $urlrepertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i]); // Mise à la bonne taille de la photo
 echo "\t\t\t<li>$nom[$i] <img width=\"100px\" src=\"http://".$urlrepertoire."/".$nom['album'][$i]."/".$nom['gallerie'][$i]."/thumbs/".$nom[$i]."\">";
 unlink($repertoire."/easyupload/".$nom[$i]); // suppression du fichier du repertoire easyupload
@@ -391,7 +298,6 @@ if (is_array($xmlgallery_array))
 if (!in_array("/".$nom['album'][$i]."/".$nom['gallerie'][$i],$xmlgallery_array)) // TODO ; je n'ai pas compris l'interêt de cette condition
 	{
 	echo "pas dans le tableau<br/>";
-	//array_push($xmlgallery_array,"/".$galleries[$i]."/".$directories[$i]);
 	$xmlgallery_array[]="/".$nom['album'][$i]."/".$nom['gallerie'][$i];
 	}
 echo "</li>\n";

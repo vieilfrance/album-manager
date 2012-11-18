@@ -169,6 +169,184 @@ function rotate ($url_read, $degree)
 }
 /////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////
+// ---- Génération de l'index des années
+function genereAlbumIndex($name,$base,$dossier,$rep,$self){ // la génération de l'index des années
+// nom de la gallery / repertoire de base du site (avec les ss rep) / liste des repertoire des années / nom de la gallery (avec les ss rep) / les ss rep seuls
+
+	$directoryList="";
+	$path=$base."/".$name;
+	arsort($dossier);
+	
+	foreach ($dossier as $d) {
+	$directoryList.="\n<h2><a href=\"".$self."/".$name."/".$d."\">$d</a></h2>";
+	}
+	
+	$fp=fopen($base."/admin/base/index_newgallery.php",'rb') or die("Fichier ".$base."/admin/base/index_newgallery.php manquant");
+	$indexcontent=fread($fp, filesize($base."/admin/base/index_newgallery.php"));
+	fclose($fp);
+	$indexcontent=str_replace('@@REP@@',$name,$indexcontent);
+	$fp=fopen($base."/".$name."/index.php",'wb') or die("Fichier index manquant");
+	fwrite($fp,$indexcontent);
+	fclose($fp);
+	
+	$text=fopen($path."/index.php",'a+') or die("Fichier index manquant en lecture");
+	$contents = '';
+	while (!feof($text)) {
+	  $contents .= fread($text, 8192);
+	}
+	$position=strrpos($contents,"<br/>");
+	$position=$position+strlen("<br/>");
+
+	$longeur=strlen($contents)-$position;
+	$str1=substr($contents,0,$position).$directoryList.substr($contents,$position,$longeur);
+	fclose($text);
+
+	$text2=fopen($path."/index.php",'w+') or die("Fichier index manquant en ecriture");
+	fwrite($text2,$str1);
+	fclose($text2);
+}
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// ---- Génération de l'index des mois
+function genereSubAlbumIndex($name,$base,$dossier,$rep,$self){ // la génération de l'index des mois
+	$directoryList="";
+	$path=$base.$rep;
+	asort($dossier);
+	
+	$tab_mois = array( '01' => 'Janvier',
+					   '02' => 'Fevrier',
+					   '03' => 'Mars',
+					   '04' => 'Avril',
+					   '05' => 'Mai',
+					   '06' => 'Juin',
+					   '07' => 'Juillet',
+					   '08' => 'Aout',
+					   '09' => 'Septembre',
+					   '10' => 'Octobre',
+					   '11' => 'Novembre',
+					   '12' => 'Decembre');
+	
+	foreach ($dossier as $d) {
+	$directoryList.="\n<h2><a href=\"".$self."/".substr($rep,1)."/".$d."\">".$d." - ".$tab_mois[$d]."</a></h2>";
+	$fp=fopen($base."/admin/base/index2.php",'rb') or die("Fichier ".$base."/admin/base/index2.php manquant");
+	$indexcontent=fread($fp, filesize($base."/admin/base/index2.php"));
+	fclose($fp);
+	$indexcontent=str_replace('@@REP@@',$name,$indexcontent);
+	$fp=fopen($path."/index.php",'wb') or die("Fichier index manquant");
+	fwrite($fp,$indexcontent);
+	fclose($fp);
+
+	$text=fopen($path."/index.php",'a+') or die("Fichier index manquant en lecture");
+	$contents = '';
+	while (!feof($text)) {
+	  $contents .= fread($text, 8192);
+	}
+	$position=strrpos($contents,"<br/>");
+	$position=$position+strlen("<br/>");
+
+	$longeur=strlen($contents)-$position;
+	$str1=substr($contents,0,$position).$directoryList.substr($contents,$position,$longeur);
+	fclose($text);
+
+	$text2=fopen($path."/index.php",'w+') or die("Fichier index manquant en ecriture");
+	fwrite($text2,$str1);
+	fclose($text2);
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// ---- Génération du header des mois
+function genereHeader($name,$base,$dossier,$rep,$self){ // la génération de l'index des mois
+	$directoryList="";
+	$path=$base.$rep;
+	asort($dossier);
+	
+	$tab_mois = array( '01' => 'Janvier',
+					   '02' => 'Fevrier',
+					   '03' => 'Mars',
+					   '04' => 'Avril',
+					   '05' => 'Mai',
+					   '06' => 'Juin',
+					   '07' => 'Juillet',
+					   '08' => 'Aout',
+					   '09' => 'Septembre',
+					   '10' => 'Octobre',
+					   '11' => 'Novembre',
+					   '12' => 'Decembre');
+	
+	foreach ($dossier as $d) {
+		$directoryList.="\n<a href=\"../".$d."/\">".$tab_mois[$d]."</a>";
+	}
+	$text=fopen($path."/header.php",'w+') or die("Fichier header manquant en ecriture");
+	fwrite($text,"<a href=\"..\">Retour</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$directoryList);
+	fclose($text);
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// ---- Génération de l'index d'une gallerie
+function genereGaleryIndex($name,$base,$dossier,$rep,$self) { // la génération de l'index de la gallerie
+	$file=$base.'/admin/base/index.php';
+	$path=$base.$rep;
+
+	$tab_mois = array( '01' => 'Janvier',
+					   '02' => 'Fevrier',
+					   '03' => 'Mars',
+					   '04' => 'Avril',
+					   '05' => 'Mai',
+					   '06' => 'Juin',
+					   '07' => 'Juillet',
+					   '08' => 'Aout',
+					   '09' => 'Septembre',
+					   '10' => 'Octobre',
+					   '11' => 'Novembre',
+					   '12' => 'Decembre');
+
+	$d=$dossier;
+	$title=$d." - ".$tab_mois[$d];
+echo $d;
+	copy($file, $path."/index.php");
+
+	//ouverture en lecture et modification du fichier index du mois
+	$text=fopen($path."/index.php",'r') or die("Fichier index manquant en lecture");
+	$contenu=file_get_contents($path."/index.php");
+	$contenuMod=str_replace('<title>','<title>'.$title, $contenu);
+	$contenuMod=str_replace('@@REP@@',$name,$contenuMod);
+	fclose($text);
+
+	//ouverture en écriture
+	$text2=fopen($path."/index.php",'w+') or die("Fichier index manquant en ecriture");
+	fwrite($text2,$contenuMod);
+	fclose($text2);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ---- Lister les dossiers d'un repertoire
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function listeDirectory($dir) {
+	$dossier= array(); // on déclare le tableau contenant le nom des dossiers
+	$unwanted= array('.','..','images','original','thumbs','admin','contact','svcore','easyupload','.git'); // on déclare le nom des repertoires qui devront être exclus
+
+	$directory = opendir($dir) or die('Erreur de listage : le répertoire n\'existe pas'); // on ouvre le contenu du dossier courant
+	while($element = readdir($directory)) 
+		{
+		if (!in_array($element,$unwanted))
+			{
+			if (is_dir($dir."/".$element)) 
+				{
+				$dossier[] = $element;
+				}
+			}
+		}
+	closedir($directory);
+	return $dossier;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 function startElement_Full($parser, $name, $attrs)
 {
 global $xml;

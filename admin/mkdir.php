@@ -19,9 +19,9 @@ include 'functions.php';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-if (isset($_POST['rep']) && isset($_POST['gallery']))
+if (isset($_POST['rep']) && isset($_POST['gallery'])) // création d'une gallerie - un mois
 {
-	$path=$_SERVER['DOCUMENT_ROOT'].$_GET['rep'];
+	$path=$_SERVER['DOCUMENT_ROOT'].$self.$_GET['rep'];
 	$rep=$_POST['rep'];
 
 	$tab_mois = array( '01' => 'Janvier',
@@ -47,11 +47,16 @@ if (isset($_POST['rep']) && isset($_POST['gallery']))
 		mkdir($path."/".$rep."/images/", 0777);
 		mkdir($path."/".$rep."/thumbs/", 0777);
 		mkdir($path."/".$rep."/original/", 0777);
+		
 		// création du repertoire contenant le player des photos
 		recurse_copy($base.'/admin/base/svcore',$path."/".$rep."/svcore");
+		
 		// création du fichier index de mois
 		$file = $base.'/admin/base/index.php';
 		copy($file, $path."/".$rep."/index.php");
+
+		// on récupère la liste des dossiers (et donc des années ou des mois)
+		$dossier=listeDirectory($path);
 
 		//ouverture en lecture et modification du fichier index du mois
 		$text=fopen($path."/".$rep."/index.php",'r') or die("Fichier index manquant en lecture");
@@ -66,42 +71,10 @@ if (isset($_POST['rep']) && isset($_POST['gallery']))
 		fclose($text2);
 
 		// on s'occupe du header maintenant
-		if (file_exists($path."/header.php")) {
-		//S'il existe on le met a jour
-		$text=fopen($path."/header.php",'a+') or die("Fichier header manquant en lecture");
-		fwrite($text,$contenu_header);
-		fclose($text);
-		}
-		//sinon on le crée
-		else {
-		$text=fopen($path."/header.php",'w+') or die("Fichier header manquant en ecriture");
-		fwrite($text,"<a href=\"..\">Retour</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$contenu_header);
-		fclose($text);
-		}
+		genereHeader($_POST['gallery'],$base,$dossier,$_GET['rep'],$self);
 
 		// et enfin on s'occuppe de l'index de l'année
-		if (file_exists($path."/index.php")) {
-		//S'il existe on le met a jour
-		$text=fopen($path."/index.php",'a+') or die("Fichier index manquant en lecture");
-		$contents = '';
-		while (!feof($text)) {
-		  $contents .= fread($text, 8192);
-		}
-		$position=strrpos($contents,"<br/>");
-		$position=$position+strlen("<br/>");
-
-		$longeur=strlen($contents)-$position;
-		$str1=substr($contents,0,$position)."\n<h2><a href=\"/".substr($_GET['rep'],1)."/".$rep."\">$title</a></h2>".substr($contents,$position,$longeur);
-		fclose($text);
-
-		$text2=fopen($path."/index.php",'w+') or die("Fichier index manquant en ecriture");
-		fwrite($text2,$str1);
-		fclose($text2);
-
-		}
-		//sinon on le crée
-		else {
-		}
+		genereSubAlbumIndex($_POST['gallery'],$base,$dossier,$_GET['rep'],$self);
 		}
 	echo "<FORM name =\"g_choice\" method=\"POST\" action=\"galleries.php\">";
 	echo "<INPUT type=\"hidden\" name=\"dirr\" value=\"".$_POST['gallery']."\" ></INPUT>";
@@ -115,8 +88,6 @@ else
 
   if (isset($_POST['g']) && isset($_POST['gallery']))
 	{
-
-//	$path=$_SERVER['DOCUMENT_ROOT']."/".$_GET['g'];
 	$path=$_SERVER['DOCUMENT_ROOT'].$_GET['g'];
 	$rep=$_POST['g'];
 	$title=$rep;
@@ -125,11 +96,8 @@ else
 		{
 		mkdir($path."/".$rep, 0777);
 		// on crée un index.php vide dans le repertoire
-	//	$fp=fopen("./base/index2.php",'rb') or die("Fichier manquant");
-	//	$indexcontent=fread($fp, filesize("./base/index2.php"));
 		$fp=fopen($base."/admin/base/index2.php",'rb') or die("Fichier ".$base."/admin/base/index2.php manquant en lecture");
 		$indexcontent=fread($fp, filesize($base."/admin/base/index2.php"));
-	//	$indexcontent="";
 		$indexcontent=str_replace('@@REP@@',$_POST['gallery'],$indexcontent);
 		fclose($fp);
 		$fp=fopen($path."/".$rep."/index.php",'wb') or die("Fichier ".$path."/".$rep."/index.php manquant en ecriture");
@@ -138,29 +106,12 @@ else
 
 		
 	// Il faut mettre à jour le fichier index listant les galleries (dont celle-ci). Si il n'existe pas il faut le créer
-		if (file_exists($path."/index.php")) {
-		//S'il existe on le met a jour
-		$text=fopen($path."/index.php",'a+') or die("Fichier ".$path."/index.php manquant");
-		$contents = '';
-		while (!feof($text)) {
-		  $contents .= fread($text, 8192);
+		// on récupère la liste des dossiers (et donc des années ou des mois)
+		$dossier=listeDirectory($path);
+		$g_rep=$_GET['g'];
+		genereAlbumIndex($_POST['gallery'],$base,$dossier,$g_rep,$self);
 		}
-		$position=strrpos($contents,"<br/><br/>");
-		$position=$position+strlen("<br/><br/>");
-		
-		$longeur=strlen($contents)-$position;
-		$str1=substr($contents,0,$position)."\n<h2><a href=\"/".substr($_GET['g'],1)."/".$rep."\">$title</a></h2>".substr($contents,$position,$longeur);
-		fclose($text);
-		
-		$text2=fopen($path."/index.php",'w+') or die("Fichier manquant");
-		fwrite($text2,$str1);
-		fclose($text2);
-		
-		}
-		//sinon on le crée
-		else {
-		}
-		}
+
 	echo "<FORM name =\"g_choice\" method=\"POST\" action=\"galleries.php\">";
 	echo "<INPUT type=\"hidden\" name=\"dirr\" value=\"".$_POST['gallery']."\" ></INPUT>";
 	echo "</FORM>";
