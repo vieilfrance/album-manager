@@ -495,6 +495,13 @@ global $xml_script;
 global $names;
 global $base;
 
+$xml_directory ="";
+$xml_name ="";
+$xml_title ="";
+$xml_caption ="";
+$xml_css ="";
+$xml_script ="";
+
 $dir=$rep;
 $parameters=array();
 
@@ -530,13 +537,13 @@ $sortie.="</galleries>";
 return $sortie;
 }
 
-function generateXMLGallery ($name,$title,$caption,$css,$script) {
-$sortie="<gallery directory=\"".$name."\">";
-$sortie.="<name>".$name."</name>";
-$sortie.="<title>".$title."</title>";
-$sortie.="<caption>".$caption."</caption>";
-$sortie.="<css>".$css."</css>";
-$sortie.="<script>".$script."</script>";
+function generateXMLGallery ($name_g,$title_g,$caption_g,$css_g,$script_g) {
+$sortie="<gallery directory=\"".$name_g."\">";
+$sortie.="<name>".$name_g."</name>";
+$sortie.="<title>".$title_g."</title>";
+$sortie.="<caption>".$caption_g."</caption>";
+$sortie.="<css>".$css_g."</css>";
+$sortie.="<script>".$script_g."</script>";
 $sortie.="</gallery>";
 
 return $sortie;
