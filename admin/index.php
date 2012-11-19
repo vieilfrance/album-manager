@@ -37,6 +37,7 @@ else
 	echo "<br/>";
 	echo "<div class=\"buttonwrapper\">";
 	echo "<a class=\"boldbuttons\" href=\"galleries.php\"><span>Administrer un album</span></a>"; 
+	echo "<a class=\"boldbuttons\" href=\"gallery.php\" style=\"margin-left: 6px\"><span>Editer un album</span></a>";
 	echo "<a class=\"boldbuttons\" href=\"newgallery.php\" style=\"margin-left: 6px\"><span>Nouvel album</span></a>";
 	echo "</div>";
 	}
