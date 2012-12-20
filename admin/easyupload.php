@@ -144,7 +144,7 @@ if (is_dir($repertoire."/easyupload")) // Test s'il s'agit d'un repertoire
 				$ext_fichier = '';
 				}
 				
-			if($ext_fichier != 'php' and $ext_fichier != 'html' and $ext_fichier != 'db' ) 
+			if($ext_fichier != 'php' and $ext_fichier != 'html' and $ext_fichier != 'db' and $ext_fichier != 'png' ) // on filtre aussi les png pour le moment
 				{ //utile pour exclure certains types de fichiers a ne pas lister
 				// TODO : plutot que d'exclure une liste qui risque de s'etendre, il faudrait mieux inclure la liste des format voulu
 				$compteur=$compteur+1;
