@@ -104,6 +104,8 @@ fclose($fp);
 mkdir($base."/".$name, 0777); // on crée le repertoire de la gallerie
 mkdir($base."/".$name."/easyupload", 0777); // on crée le repertoire pour easyupload
 
+recurse_copy($base.'/admin/base/easyupload',$base."/".$name."/easyupload"); // ici mettre la copie des fichiers pour l'upload
+
 $fp=fopen($base."/admin/base/index_newgallery.php",'rb') or die("Fichier ".$base."/admin/base/index_newgallery.php manquant");
 $indexcontent=fread($fp, filesize($base."/admin/base/index_newgallery.php"));
 fclose($fp);
