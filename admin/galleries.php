@@ -1,13 +1,14 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>Adminstration des albums</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="./include/admin.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="./include/admin.js"></script>
-<script type="text/javascript" src="./include/prototype.js"></script>
-<script type="text/javascript" src="./include/scriptaculous.js?load=effects,builder"></script>
-
-</head>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Adminstration des albums</title>
+		<link href="./include/admin.css" rel="stylesheet" />
+		<script type="text/javascript" src="./include/admin.js"></script>
+		<script type="text/javascript" src="./include/prototype.js"></script>
+		<script type="text/javascript" src="./include/scriptaculous.js?load=effects,builder"></script>
+	</head>
 <body>
 
 <?php

@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>Edition d'album</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="./include/admin.css" rel="stylesheet" type="text/css" />
-</head>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Edition d'album</title>
+		<link href="./include/admin.css" rel="stylesheet" />
+	</head>
 <body>
 <SCRIPT>
 function checkInput(el) {
@@ -143,13 +145,13 @@ if (isset($_POST['dirr']))
 	echo "<div class=\"textcenter\">";
 	echo "<FORM id=\"newgallery\" name=\"newgallery\" style=\" border: 1px solid black; padding-top:20px; padding-bottom:20px; background-color:#6C0; \" method=\"POST\" action=\"gallery.php\" onsubmit=\"return checkForm()\">";
 		echo "<input type=\"hidden\"  name=\"dirr\"  value=\"".$_POST['dirr']."\">";		
-		echo "<fieldset><legend>Informations nécessaires</legend>";
+		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
 		echo "<p><label for=\"form_name\" class=\"obl\">Nom de l'album : </label><span id=\"namestatut\"></span><input size=\"37\" id=\"form_name\" name=\"name\" class=\"obl\" value=\"".$param[1]."\"></p>";
 		echo "<p><label for=\"form_title\">Titre : </label><input size=\"37\" id=\"form_title\" name=\"title\"class=\"fac\" value=\"".$param[2]."\"><span id=\"titlestatut\"></span></p>";
 		echo "<p><label for=\"form_caption\">Texte descritpif : </label><textarea rows=\"5\" cols=\"30\" id=\"form_caption\" name=\"caption\"class=\"fac\">".$param[3]."</textarea><span id=\"captionstatut\"></span></p>";
 		echo "</fieldset>";
 
-		echo "<fieldset><legend><a href=\"#\" onclick=\"displayGroup();\">Informations complémentaires</a></legend>";
+		echo "<fieldset><legend><a href=\"#\" onclick=\"displayGroup();\">Informations compl&eacute;mentaires</a></legend>";
 		echo "<div id=\"displaygroup_id\" style=\"display:none;\">";
 		echo "<p><label for=\"form_css\">Feuille de style : </label><input size=\"37\" id=\"form_css\" name=\"css\"  value=\"".$param[4]."\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"cssstatut\"></span></p>";
 		echo "<p><label for=\"form_script\">Fichier de script : </label><input size=\"37\" id=\"form_script\" name=\"script\"  value=\"".$param[5]."\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"scriptstatut\"></span></p>";

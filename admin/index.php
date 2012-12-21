@@ -1,9 +1,12 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>Ecran d'administration</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="./include/admin.css" rel="stylesheet" type="text/css" />
-</head>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Ecran d'administration</title>
+		<!-- <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> -->
+		<link href="./include/admin.css" rel="stylesheet" />
+	</head>
 <body>
 <?php
 
@@ -26,7 +29,7 @@ $galleriesCount=count($galleries);
 if ($galleriesCount==0)
 	{
 // Pas d'album actuellement donc proposition d'en créer une directement.
-	echo "<div class=\"textcenter\">Il semble que vous n'ayiez créé aucun album pour le moment.<br/>Vous pouvez démarrer la création d'un album si vous le souhaitez.<br/><br/>";
+	echo "<div class=\"textcenter\">Il semble que vous n'ayiez cr&eacute;&eacute; aucun album pour le moment.<br/>Vous pouvez d&eacute;marrer la cr&eacute;ation d'un album si vous le souhaitez.<br/><br/>";
 	echo "<div class=\"buttonwrapper2\">";
 	echo "<a class=\"boldbuttons\" href=\"newgallery.php\"><span>DEMARRER</span></a>"; 	
 	echo "</div></div>";
