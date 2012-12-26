@@ -179,7 +179,8 @@ function genereAlbumIndex($name,$base,$dossier,$rep,$self){ // la génération de 
 	arsort($dossier);
 	
 	foreach ($dossier as $d) {
-	$directoryList.="\n<h2><a href=\"".$self."/".$name."/".$d."\">$d</a></h2>";
+	//$directoryList.="\n<h2><a href=\"".$self."/".$name."/".$d."\">$d</a></h2>";
+	$directoryList.="\n<h2><a href=\"./".$d."\">$d</a></h2>";
 	}
 	
 	$fp=fopen($base."/admin/base/index_newgallery.php",'rb') or die("Fichier ".$base."/admin/base/index_newgallery.php manquant");
@@ -229,7 +230,8 @@ function genereSubAlbumIndex($name,$base,$dossier,$rep,$self){ // la génération 
 					   '12' => 'Decembre');
 	
 	foreach ($dossier as $d) {
-	$directoryList.="\n<h2><a href=\"".$self."/".substr($rep,1)."/".$d."\">".$d." - ".$tab_mois[$d]."</a></h2>";
+//	$directoryList.="\n<h2><a href=\"".$self."/".substr($rep,1)."/".$d."\">".$d." - ".$tab_mois[$d]."</a></h2>";
+	$directoryList.="\n<h2><a href=\"./".$d."\">".$d." - ".$tab_mois[$d]."</a></h2>";
 	$fp=fopen($base."/admin/base/index2.php",'rb') or die("Fichier ".$base."/admin/base/index2.php manquant");
 	$indexcontent=fread($fp, filesize($base."/admin/base/index2.php"));
 	fclose($fp);

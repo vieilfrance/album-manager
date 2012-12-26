@@ -72,7 +72,6 @@ $tmpsortie="";
 $urlrepertoire=$urlbase.":".$portbase."/".$self."/".$gallery;
 
 $xmlgallery_array=array();
-//echo "<br/> listing de ".$repertoire."/easyupload";
 
 if (is_dir($repertoire."/easyupload")) // Test s'il s'agit d'un repertoire
 	{
@@ -80,7 +79,7 @@ if (is_dir($repertoire."/easyupload")) // Test s'il s'agit d'un repertoire
 	$compteur=-1;
 	while(false!==($file = readdir($dir)))
 		{ //on lit tout et on recupere tout les fichiers dans $file
-
+		echo "==>".$file;
 		if(!in_array($file, array('.','..','Thumbs.db','thumbs.db'))) //on enleve le parent et le courant '. et ..'
 			{ 
 			$compteur=$compteur+1;

@@ -1,10 +1,11 @@
 // fonction javascript de mise à jour d'une gallerie à partir d'un paramète 'rep'
 function g_update(rep) {
-	new Ajax.Request('update.php',
+	new Ajax.Request('generatexml.php',
 	{
 		method:'get',
 		parameters: {  
-			rep: rep
+			rep: rep ,
+			name: name
 		},
 		onSuccess: function(transport){
 			alert('ok');

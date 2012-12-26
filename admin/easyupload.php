@@ -400,7 +400,6 @@ $tmpsortie=$tmpsortie."<image imageURL=\"images/".$nom[$i]."\" thumbURL=\"thumbs
 
 return $tmpsortie;
 }
-
 // Fin de la fonction 'imgList'
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -492,11 +491,8 @@ $g=getGalleries(); // récupère la liste des galleries inscrites dans le fichier 
 foreach ($g as $gallery) { // pour chaque galleries on met à jour
 //	echo "Mise à jour de l'album :".$gallery."<br/>";
 	$rep=$base."/".$gallery;
-	//$rep=$urlbase."/".$gallery;
 //	echo "gallery : ".$gallery." (".$rep.")<br/>";
-	$xmlgallery_array=listing($rep); // verifie la création (et crée au besoin) des bons repertoires et crée les bons fichiers avec les bonnes tailles
-//$xmlgallery_array[]="/2012/01";
-//$xmlgallery_array[]="/2012/02";
+	$xmlgallery_array = listing($rep); // verifie la création (et crée au besoin) des bons repertoires et crée les bons fichiers avec les bonnes tailles
 	$xmlgallery_array = array_unique($xmlgallery_array); // supprime les doublons du tableau des repertoires de la gallerie (mois et années)
 //print_r($xmlgallery_array);
 	$liste_gallerie_maj="";
