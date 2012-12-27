@@ -3,14 +3,34 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Adminstration des albums</title>
+		<title>Adminstraer un album</title>
 		<link href="./include/admin.css" rel="stylesheet" />
+		<!-- Bootstrap CSS Toolkit styles -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">		
+		<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+
 		<script type="text/javascript" src="./include/admin.js"></script>
 		<script type="text/javascript" src="./include/prototype.js"></script>
 		<script type="text/javascript" src="./include/scriptaculous.js?load=effects,builder"></script>
+		
 	</head>
 <body>
-
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+        </div>
+    </div>
+</div>
+<div class="container">
+<ul class="breadcrumb">
+  <li><a href="./">Home</a> <span class="divider">/</span></li>
+  <li class="active">Administration</li>
+</ul>
+    <div class="page-header">
+        <h1>Administrer un album</h1>
+    </div>
+    <br>
 <?php
 
 // RESTE A REVOIR LES SEPARATEUR DE REPERTOIRE POUR LINUX !!!
@@ -91,11 +111,11 @@ if(!empty($dossier))
 if ($galleriesCount==1)
 	{
 	$_POST['dirr']=$galleries[0];
-	echo "Nom de l'album : ".$galleries[0]."<br/><br/>";
+	echo "Nom de l'album : ".$galleries[0]." ";
 	}
 else // Sinon le premier de la liste est selectionné par défaut et on affiche une liste
 	{
-	echo "<FORM name =\"g_choice\" method=\"POST\" action=\"galleries.php\">";
+	echo "<FORM name =\"g_choice\" class=\"form-horizontal\" method=\"POST\" action=\"galleries.php\">";
     echo "Nom de l'album : <select name=\"dirr\" onchange=\"document.forms['g_choice'].submit();\" >";
 	for ($i = 0; $i < $galleriesCount; $i++) 
 		{
@@ -106,13 +126,27 @@ else // Sinon le premier de la liste est selectionné par défaut et on affiche un
 				}
 			else
 				if ($i==0)
+					{
 					echo " SELECTED";
+					$_POST['dirr'] = $galleries[0];
+					}
         echo " >$galleries[$i]</OPTION>";
 		}
 	echo "</SELECT>&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</FORM>";
 	}
-	
+
+
+    echo "<a class=\"btn btn-primary\" href=\"/".$_POST['dirr']."/easyupload\">";
+    echo "<i class=\"icon-upload icon-white\"></i>";
+    echo " Charger des photos";
+	echo "</a> ";
+
+    echo "<a class=\"btn btn-primary\" href=\"easyupload.php\">";
+    echo "<i class=\"icon-refresh icon-white\"></i>";
+    echo " G&eacute;n&eacute;rer les galleries";
+	echo "</a> ";
+	echo "<br/><br/>";
 	
 if (!isset($_POST['dirr']))
 	$_POST['dirr']=$galleries[0]; // petit hack pour éviter de trainer des conditions avec la variable $_POST selon les cas

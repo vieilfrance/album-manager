@@ -5,9 +5,28 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Ecran d'administration</title>
 		<!-- <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> -->
-		<link href="./include/admin.css" rel="stylesheet" />
+		<link href="./include/admin.css" rel="stylesheet" /> 
+		<!-- Bootstrap CSS Toolkit styles -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">		
+		<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+
 	</head>
 <body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+        </div>
+    </div>
+</div>
+<div class="container">
+<ul class="breadcrumb">
+  <li class="active">Home</li>
+</ul>
+    <div class="page-header">
+        <h1>Administration des albums</h1>
+    </div>
+    <br>
 <?php
 
 //set_include_path(get_include_path().PATH_SEPARATOR.$_SERVER['DOCUMENT_ROOT']."/".'include'); // inclure le repertoire "include" en flottant (laisser le choix du repertoire racine)
@@ -30,21 +49,29 @@ if ($galleriesCount==0)
 	{
 // Pas d'album actuellement donc proposition d'en créer une directement.
 	echo "<div class=\"textcenter\">Il semble que vous n'ayiez cr&eacute;&eacute; aucun album pour le moment.<br/>Vous pouvez d&eacute;marrer la cr&eacute;ation d'un album si vous le souhaitez.<br/><br/>";
-	echo "<div class=\"buttonwrapper2\">";
-	echo "<a class=\"boldbuttons\" href=\"newgallery.php\"><span>DEMARRER</span></a>"; 	
-	echo "</div></div>";
+    echo "<a class=\"btn btn-success\" href=\"newgallery.php\">";
+	echo "<i class=\"icon-plus icon-white\"></i>";
+	echo "<span>DEMARRER</span>";
+	echo "</a>";
+	echo "</div>";
 	}
 else
 	{
 // Au moins un album donc on laisse la possibilité de le gerer ou de créer un nouvel album
-	echo "<br/>";
-	echo "<div class=\"buttonwrapper\">";
-	echo "<a class=\"boldbuttons\" href=\"galleries.php\"><span>Administrer un album</span></a>"; 
-	echo "<a class=\"boldbuttons\" href=\"gallery.php\" style=\"margin-left: 6px\"><span>Editer un album</span></a>";
-	echo "<a class=\"boldbuttons\" href=\"newgallery.php\" style=\"margin-left: 6px\"><span>Nouvel album</span></a>";
-	echo "</div>";
+    echo "<a class=\"btn btn-primary\" href=\"galleries.php\">";
+    echo "<i class=\"icon-eye-open icon-white\"></i>";
+    echo " Administrer un album";
+	echo "</a> ";
+	echo "<a class=\"btn btn-primary\" href=\"gallery.php\">";
+    echo "<i class=\"icon-edit icon-white\"></i>";
+    echo " Editer un album";
+	echo "</a> ";
+    echo "<a class=\"btn btn-success\" href=\"newgallery.php\">";
+    echo "<i class=\"icon-plus icon-white\"></i>";
+    echo " Nouvel album";
+	echo "</a>";
 	}
-
 ?>
-
+	</div>
 </body>
+</html>

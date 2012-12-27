@@ -5,8 +5,29 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Nouvel album</title>
 		<link href="./include/admin.css" rel="stylesheet" />
+		<!-- Bootstrap CSS Toolkit styles -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">		
+		<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+
 	</head>
 <body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<ul class="breadcrumb">
+  <li><a href="./">Home</a> <span class="divider">/</span></li>
+  <li class="active">Nouvel album</li>
+</ul>
+    <div class="page-header">
+        <h1>Ajouter un nouvel album</h1>
+    </div>
+    <br>
 <SCRIPT>
 function checkInput(el) {
 if (el.value =="")
@@ -126,10 +147,25 @@ echo "</SCRIPT>";
 }
 else
 {
-	echo "<div class=\"textcenter\">";
-	echo "<FORM id=\"newgallery\" name=\"newgallery\" style=\" border: 1px solid black; padding-top:20px; padding-bottom:20px; background-color:#6C0; \" method=\"POST\" action=\"newgallery.php\" onsubmit=\"return checkForm()\">";
+	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"newgallery.php\" onsubmit=\"return checkForm()\">";
 		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
-		echo "<p><label for=\"form_name\" class=\"obl\">Nom de l'album : </label><span id=\"namestatut\"></span><input size=\"37\" id=\"form_name\" name=\"name\" class=\"obl\"></p>";
+		echo "<div class=\"control-group\"><label for=\"form_name\" class=\"obl , control-label\"><b>Nom de l'album : </b></label><div class=\"controls\"><span id=\"namestatut\"></span><input type=\"text\" id=\"form_name\" name=\"name\" class=\"input-xlarge\" required></div></div>";
+		echo "<div class=\"control-group\"><label for=\"form_title\" class=\"control-label\">Titre : </label><div class=\"controls\"><input type=\"text\" id=\"form_title\" name=\"title\" class=\"fac, input-xlarge\"><span id=\"titlestatut\"></span></div></div>";
+		echo "<div class=\"control-group\"><label for=\"form_caption\" class=\"control-label\">Texte descritpif : </label><div class=\"controls\"><textarea id=\"form_caption\" name=\"caption\" class=\"fac, input-xxlarge\"></textarea><span id=\"captionstatut\"></span></div></div>";
+		echo "</fieldset>";
+
+		echo "<fieldset><legend><a href=\"#\" onclick=\"displayGroup();\">Informations compl&eacute;mentaires</a></legend>";
+		echo "<div id=\"displaygroup_id\" style=\"display:none;\">";
+		echo "<div class=\"control-group\"><label for=\"form_css\" class=\"control-label\">Feuille de style : </label><div class=\"controls\"><input type=\"text\" id=\"form_css\" name=\"css\" value=\"default\" class=\"input-small\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"cssstatut\"></span></div></div>";
+		echo "<div class=\"control-group\"><label for=\"form_script\" class=\"control-label\">Fichier de script : </label><div class=\"controls\"><input  type=\"text\" id=\"form_script\" name=\"script\" value=\"default\" class=\"input-small\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"scriptstatut\"></span></div></div>";
+		echo "</div>";
+		echo "</fieldset>";
+		echo "<button type=\"submit\" class=\"btn btn-primary\">Enregistrer</button>";
+	echo "</FORM>";
+/*
+	echo "<FORM id=\"newgallery\" name=\"newgallery\" class=\"form-horizontal\" style=\" border: 1px solid black; padding-bottom:20px; background-color:#6C0; \" method=\"POST\" action=\"newgallery.php\" onsubmit=\"return checkForm()\">";
+		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
+		echo "<p><label for=\"form_name\" class=\"obl\">Nom de l'album : </label><span id=\"namestatut\"></span><input size=\"37\" id=\"form_name\" name=\"name\" class=\"obl\" ></p>";
 		echo "<p><label for=\"form_title\">Titre : </label><input size=\"37\" id=\"form_title\" name=\"title\"class=\"fac\"><span id=\"titlestatut\"></span></p>";
 		echo "<p><label for=\"form_caption\">Texte descritpif : </label><textarea rows=\"5\" cols=\"30\" id=\"form_caption\" name=\"caption\"class=\"fac\"></textarea><span id=\"captionstatut\"></span></p>";
 		echo "</fieldset>";
@@ -142,8 +178,10 @@ else
 		echo "</fieldset>";
 	    echo "<p><INPUT type=submit value=\"ENREGISTRER\"></p>";
 	echo "</FORM>";
-	echo "</div>";
-}
+
+*/
+	
+	}
 ?>
 
 </body>

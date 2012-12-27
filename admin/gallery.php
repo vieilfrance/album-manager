@@ -3,10 +3,31 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Edition d'album</title>
+		<title>Editer l'album</title>
 		<link href="./include/admin.css" rel="stylesheet" />
+		<!-- Bootstrap CSS Toolkit styles -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">		
+		<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+
 	</head>
 <body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<ul class="breadcrumb">
+  <li><a href="./">Home</a> <span class="divider">/</span></li>
+  <li class="active">Editer l'album</li>
+</ul>
+    <div class="page-header">
+        <h1>Editer un album</h1>
+    </div>
+    <br>
 <SCRIPT>
 function checkInput(el) {
 if (el.value =="")
@@ -113,7 +134,7 @@ $galleriesCount=count($galleries); // on compte le nombre d'albums
 if ($galleriesCount==1)
 	{
 	$_POST['dirr']=$galleries[0];
-	echo "Nom de l'album : ".$galleries[0]."<br/><br/>";
+	echo "Nom de l'album : ".$galleries[0];
 	}
 else // Sinon le premier de la liste est selectionné par défaut et on affiche une liste
 	{
@@ -142,7 +163,29 @@ if (isset($_POST['dirr']))
 	{
 	$param=getparameters($_POST['dirr']);
 
-	echo "<div class=\"textcenter\">";
+	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"gallery.php\" onsubmit=\"return checkForm()\">";
+		echo "<input type=\"hidden\"  name=\"dirr\"  value=\"".$_POST['dirr']."\">";		
+		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
+		echo "<div class=\"control-group\"><label for=\"form_name\" class=\"obl , control-label\"><b>Nom de l'album : </b></label><div class=\"controls\"><span id=\"namestatut\"></span><input type=\"text\" id=\"form_name\" name=\"name\" class=\"input-xlarge\" value=\"".$param[1]."\" required></div></div>";
+//		echo "<p><label for=\"form_name\" class=\"obl\">Nom de l'album : </label><span id=\"namestatut\"></span><input size=\"37\" id=\"form_name\" name=\"name\" class=\"obl\" value=\"".$param[1]."\"></p>";
+		echo "<div class=\"control-group\"><label for=\"form_title\" class=\"control-label\">Titre : </label><div class=\"controls\"><input type=\"text\" id=\"form_title\" name=\"title\" class=\"fac, input-xlarge\" value=\"".$param[2]."\"><span id=\"titlestatut\"></span></div></div>";
+//		echo "<p><label for=\"form_title\">Titre : </label><input size=\"37\" id=\"form_title\" name=\"title\"class=\"fac\" value=\"".$param[2]."\"><span id=\"titlestatut\"></span></p>";
+		echo "<div class=\"control-group\"><label for=\"form_caption\" class=\"control-label\">Texte descritpif : </label><div class=\"controls\"><textarea id=\"form_caption\" name=\"caption\" class=\"fac, input-xxlarge\">".$param[3]."</textarea><span id=\"captionstatut\"></span></div></div>";
+//		echo "<p><label for=\"form_caption\">Texte descritpif : </label><textarea rows=\"5\" cols=\"30\" id=\"form_caption\" name=\"caption\"class=\"fac\">".$param[3]."</textarea><span id=\"captionstatut\"></span></p>";
+		echo "</fieldset>";
+
+		echo "<fieldset><legend><a href=\"#\" onclick=\"displayGroup();\">Informations compl&eacute;mentaires</a></legend>";
+		echo "<div id=\"displaygroup_id\" style=\"display:none;\">";
+		echo "<div class=\"control-group\"><label for=\"form_css\" class=\"control-label\">Feuille de style : </label><div class=\"controls\"><input type=\"text\" id=\"form_css\" name=\"css\" value=\"".$param[4]."\" class=\"input-small\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"cssstatut\"></span></div></div>";
+//		echo "<p><label for=\"form_css\">Feuille de style : </label><input size=\"37\" id=\"form_css\" name=\"css\"  value=\"".$param[4]."\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"cssstatut\"></span></p>";
+		echo "<div class=\"control-group\"><label for=\"form_script\" class=\"control-label\">Fichier de script : </label><div class=\"controls\"><input  type=\"text\" id=\"form_script\" name=\"script\" value=\"".$param[5]."\" class=\"input-small\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"scriptstatut\"></span></div></div>";
+//		echo "<p><label for=\"form_script\">Fichier de script : </label><input size=\"37\" id=\"form_script\" name=\"script\"  value=\"".$param[5]."\" onfocusout=\"checkInput(this)\" onfocus=\"clearDefaultandCSS(this)\"><span id=\"scriptstatut\"></span></p>";
+		echo "</div>";
+		echo "</fieldset>";
+//	    echo "<p><INPUT type=submit value=\"ENREGISTRER\"></p>";
+		echo "<button type=\"submit\" class=\"btn btn-primary\">Enregistrer</button>";
+	echo "</FORM>";
+/*
 	echo "<FORM id=\"newgallery\" name=\"newgallery\" style=\" border: 1px solid black; padding-top:20px; padding-bottom:20px; background-color:#6C0; \" method=\"POST\" action=\"gallery.php\" onsubmit=\"return checkForm()\">";
 		echo "<input type=\"hidden\"  name=\"dirr\"  value=\"".$_POST['dirr']."\">";		
 		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
@@ -159,7 +202,7 @@ if (isset($_POST['dirr']))
 		echo "</fieldset>";
 	    echo "<p><INPUT type=submit value=\"ENREGISTRER\"></p>";
 	echo "</FORM>";
-	echo "</div>";	
+*/
 	}
 ?>  
 
