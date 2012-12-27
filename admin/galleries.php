@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Adminstraer un album</title>
+		<title>Adminstrer un album</title>
 		<link href="./include/admin.css" rel="stylesheet" />
 		<!-- Bootstrap CSS Toolkit styles -->
 		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">		
