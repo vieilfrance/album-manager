@@ -6,14 +6,12 @@
 		<title>Adminstrer un album</title>
 		<link href="./include/admin.css" rel="stylesheet" />
 		<!-- Bootstrap CSS Toolkit styles -->
-		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">		
+		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
 		<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
 		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
-
 		<script type="text/javascript" src="./include/admin.js"></script>
 		<script type="text/javascript" src="./include/prototype.js"></script>
 		<script type="text/javascript" src="./include/scriptaculous.js?load=effects,builder"></script>
-		
 	</head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -23,10 +21,10 @@
     </div>
 </div>
 <div class="container">
-<ul class="breadcrumb">
-  <li><a href="./">Home</a> <span class="divider">/</span></li>
-  <li class="active">Administration</li>
-</ul>
+	<ul class="breadcrumb">
+	  <li><a href="./">Home</a> <span class="divider">/</span></li>
+	  <li class="active">Administration</li>
+	</ul>
     <div class="page-header">
         <h1>Administrer un album</h1>
     </div>
@@ -169,5 +167,6 @@ if (isset($_POST['dirr']))
 	}
 ?>  
 
+</div>
 </body>
 </html>
