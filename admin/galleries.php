@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Adminstrer un album</title>
 		<link href="./include/admin.css" rel="stylesheet" />
 		<!-- Bootstrap CSS Toolkit styles -->
-		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./public/css/bootstrap.min.css">
 		<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
-		<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="./public/css/bootstrap-responsive.min.css">
 		<script type="text/javascript" src="./include/admin.js"></script>
 		<script type="text/javascript" src="./include/prototype.js"></script>
-		<script type="text/javascript" src="./include/scriptaculous.js?load=effects,builder"></script>
 	</head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -134,37 +133,41 @@ else // Sinon le premier de la liste est selectionné par défaut et on affiche un
 	echo "</FORM>";
 	}
 
-
     echo "<a class=\"btn btn-primary\" href=\"/".$_POST['dirr']."/easyupload\">";
     echo "<i class=\"icon-upload icon-white\"></i>";
     echo " Charger des photos";
 	echo "</a> ";
 
-    echo "<a class=\"btn btn-primary\" href=\"easyupload.php\">";
+    echo "<a class=\"btn btn-primary\" href=\"#\" onclick=\"processEasyupload();\">";
     echo "<i class=\"icon-refresh icon-white\"></i>";
     echo " G&eacute;n&eacute;rer les galleries";
-	echo "</a> ";
+	echo "</a>";
+	echo "<div class=\"progress-information fade\">";
+	echo "<div class=\"progress progress-success progress-striped active\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"bar\" style=\"width:0%;\"></div></div>";
+	echo"</div> ";
 	echo "<br/><br/>";
-	
+
+	/*
 if (!isset($_POST['dirr']))
 	$_POST['dirr']=$galleries[0]; // petit hack pour éviter de trainer des conditions avec la variable $_POST selon les cas
-		
+
 if (isset($_POST['dirr']))
 	{
 	echo "Liste des galleries :";
-	
+
 	$dirr=$_POST['dirr'];
 	$dirr_nom=$base."/".$_POST['dirr'];
 	$directory = opendir($dirr_nom) or die('Erreur de listage : le répertoire n\'existe pas'); // on ouvre le contenu du dossier courant
 
 	echo "&nbsp;<a href=\"#\" onclick=\"g_index('".str_replace($self,"",str_replace($_SERVER['DOCUMENT_ROOT'],"",$dirr_nom))."','".$dirr."','album');\"  title=\"Actualiser l'index de l'album\"><img src=\"include/images/upd_index.png\"></img></a>";
-	
+
 	directory($directory , $dirr_nom);
-	
+
 	echo "\t\t<ul>\n";
 			echo "<li><a href=\"mkdir.php?g=".$self."/".$dirr."&gallery=".$_POST['dirr']."\" title=\"Ajouter un sous-repertoire a ".$dirr."\">+</a></li>";
 	echo "\t\t</ul>";
 	}
+	*/
 ?>  
 
 </div>
