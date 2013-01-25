@@ -147,7 +147,8 @@ echo "</SCRIPT>";
 }
 else
 {
-	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"newgallery.php\" onsubmit=\"return checkForm()\">";
+//	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"newgallery.php\" onsubmit=\"return checkForm()\">";
+	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"../include/processeasyupload.php\" onsubmit=\"return checkForm()\">";
 		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
 		echo "<div class=\"control-group\"><label for=\"form_name\" class=\"obl , control-label\"><b>Nom de l'album : </b></label><div class=\"controls\"><span id=\"namestatut\"></span><input type=\"text\" id=\"form_name\" name=\"name\" class=\"input-xlarge\" required></div></div>";
 		echo "<div class=\"control-group\"><label for=\"form_title\" class=\"control-label\">Titre : </label><div class=\"controls\"><input type=\"text\" id=\"form_title\" name=\"title\" class=\"fac, input-xlarge\"><span id=\"titlestatut\"></span></div></div>";

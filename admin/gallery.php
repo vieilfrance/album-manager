@@ -118,13 +118,13 @@ $xmlgallery.="</galleries>";
 $fp=fopen($base."/param/param.xml","wb");
 fwrite($fp,$xmlgallery);
 fclose($fp);
-
+/*
 echo "<FORM name =\"g_choice\" method=\"POST\" action=\"index.php\">";
 echo "</FORM>";
 echo "<SCRIPT>";
 echo "document.forms[\"g_choice\"].submit();";
 echo "</SCRIPT>";
-
+*/
 }
 
 $galleriesCount=count($galleries); // on compte le nombre d'albums
@@ -163,7 +163,8 @@ if (isset($_POST['dirr']))
 	{
 	$param=getparameters($_POST['dirr']);
 
-	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"gallery.php\" onsubmit=\"return checkForm()\">";
+	//echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"gallery.php\" onsubmit=\"return checkForm()\">";
+	echo "<FORM name=\"newgallery\" class=\"form-horizontal\" method=\"POST\" action=\"../include/processeasyupload.php\" onsubmit=\"return checkForm()\">";
 		echo "<input type=\"hidden\"  name=\"dirr\"  value=\"".$_POST['dirr']."\">";		
 		echo "<fieldset><legend>Informations n&eacute;cessaires</legend>";
 		echo "<div class=\"control-group\"><label for=\"form_name\" class=\"obl , control-label\"><b>Nom de l'album : </b></label><div class=\"controls\"><span id=\"namestatut\"></span><input type=\"text\" id=\"form_name\" name=\"name\" class=\"input-xlarge\" value=\"".$param[1]."\" required></div></div>";

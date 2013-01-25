@@ -29,3 +29,16 @@ function g_index(rep,name,type) {
 		onFailure: function(transport){ alert('Something went wrong...'+ transport.responseText) }
 	});
 }
+
+function processEasyupload() {
+	new Ajax.Request('processeasyupload.php',
+	{
+		method:'get',
+		onSuccess: function(transport){
+			alert('ok');
+		},
+		onFailure: function(transport){
+			alert('Something went wrong...'+ transport.responseText);
+		}
+	});	
+}

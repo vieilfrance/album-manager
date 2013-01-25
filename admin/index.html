@@ -25,27 +25,7 @@
         <h1>Administration des albums</h1>
     </div>
     <br>
-<?php
 
-//set_include_path(get_include_path().PATH_SEPARATOR.$_SERVER['DOCUMENT_ROOT']."/".'include'); // inclure le repertoire "include" en flottant (laisser le choix du repertoire racine)
-// il faut utiliser le php_self et supprimer le nom de fichier ainsi que le dernier repertoire pour le remplacer par le repertoire "include"
-
-$root = $_SERVER['DOCUMENT_ROOT'] ; // donne le repertoire (à partir du lecteur) du root du seveur
-$self = $_SERVER['PHP_SELF'] ; // donne l'adresse relative du fichier executé (sans l'url de base/port du site)
-$self = mb_substr($self,0,-mb_strlen(strrchr($self,"/"))); //suppression du nom du fichier
-$self = mb_substr($self,0,-mb_strlen(strrchr($self,"/"))); // idem, auquel on a enlevé le dernier repertoire. Vu qu'on est dans admin, on trouve le reperoitre de base des galleries
-$base = $root.$self; // collage du document root avec le/les repertoires pour atteindre le fichier executé
-
-set_include_path(get_include_path().PATH_SEPARATOR.$base."/".'include');
-
-include 'functions.php';
-
-// objectif : appeler en javascript le serveur pour obtenir les infos des galleries via json + le nombre de galleries 
-// en fonction de ces info, réutiliser les parties de html déjà existantes dans l'index de base, toujours en html et javascript.
-// L'objectif à terme est de déporter le + possible les traitements "client" coté client justement. Le serveur n'ayant à fournir que des données et des traitements métier
-// Ca permettra également par la suite de faciliter les tests unitaires à produire pour la version 1.3
-
-?>
 	<div class="page-body"></div>
 	</div>
 

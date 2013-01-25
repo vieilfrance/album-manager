@@ -90,6 +90,10 @@ width: 100%;
 padding-left: 45%;
 }
 
+.tmpl {
+	display:none;
+}
+
 #newgallery p {
 	margin: 2px 0;
 }
