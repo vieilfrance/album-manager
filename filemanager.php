@@ -564,10 +564,13 @@ class FileManager
 			unlink($this->options['base_path']."/".$this->options['files']['albumname']."/easyupload/".$file['filename']); 
 			}
 	}
-	
-	protected function generatePictureXml($topGallery,$gallery) {
+
+protected function generatePictureXml($topGallery,$gallery) {
 		$pictureXml="";
+		$pictureArray = Array();
 		$file = null;
+		$pictureInfo = Array();
+		$pictureInfo_temp= Array();
 		
 		if (is_dir($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original")) // Test s'il s'agit d'un repertoire
 			{
@@ -579,12 +582,27 @@ class FileManager
 					if(!in_array($file, array('.','..','Thumbs.db','thumbs.db')) ) //on enleve le parent et le courant '. et ..' il faudra le mettre en param
 						{
 						$datetime="";
+						$pictureInfo = null;
 						if($exif = exif_read_data($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original/".$file)) // Si le fichier $img contient des infos Exif
 							$datetime=$exif['DateTimeOriginal'];
-						$pictureXml.="<image imageURL=\"images/".$file."\" thumbURL=\"thumbs/".$file."\">\n\t<caption>".$file." le ".$datetime."</caption>\n</image>\n";
+						if ($datetime)
+							$pictureInfo_temp=explode(":",$datetime);
+						else
+							{
+							$pictureInfo_temp[0]="";
+							$pictureInfo_temp[1]="";
+							}	
+						$pictureInfo['filename']=$file;
+						$pictureInfo['DateTimeOriginal']=$datetime;
+						$pictureInfo['Year']=$pictureInfo_temp[0];
+						$pictureInfo['Month']=$pictureInfo_temp[1];
+						array_push($pictureArray,$pictureInfo);
 						}
 					}
 				}
+			usort($pictureArray, 'comparer'); // on organise les fichiers du plus récent au plus ancien avant la génération
+			foreach ($pictureArray as $file)
+				$pictureXml.="<image imageURL=\"images/".$file['filename']."\" thumbURL=\"thumbs/".$file['filename']."\">\n\t<caption>".$file['filename']." le ".$file['DateTimeOriginal']."</caption>\n</image>\n";
 			}
 		return $pictureXml;
 	}
@@ -621,12 +639,21 @@ class FileManager
 			if ($print_response)
 				{
 				$data = $_POST;
-
-				if ($this->exists($data['name']))
+				if ($this->exists($data['name'])) {
 					$this->processFile($data);
+					}
 				return $this->genere_response("");
 				}
 	}
 }
+
+	function comparer($a, $b) {
+		$dta=new DateTime($a['DateTimeOriginal']);
+		$dtb=new DateTime($b['DateTimeOriginal']);
+		if ($dta->format('U') >$dtb->format('U'))
+			return False;
+		else
+			return True;
+	}
 
 ?>
