@@ -204,8 +204,8 @@ $.ajax({
 			newValues[this.name] = $(this).val();
 		});
 		newValues['title'] = newValues['name'];
-		$(this).data("albums")['albums'].push(newValues);
-		$(this).data("albums")['albumcount']++;
+		$(this).data("albums")['data']['albums'].push(newValues);
+		$(this).data("albums")['data']['albumcount']++;
 		clearForm();
 		modal.modal('hide');
 		}
@@ -214,7 +214,7 @@ $.ajax({
 		targetInputForm.each(function() {
 			editValues[this.name] = $(this).val();
 		});
-		$.each($(this).data("albums")['albums'], function(index,value){
+		$.each($(this).data("albums")['data']['albums'], function(index,value){
 		if (value['name'] == editValues['name'] )
 			{
 			value['title'] = editValues['title'];

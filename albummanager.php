@@ -229,8 +229,15 @@ class AlbumManager
         $this->send_content_type_header();
     }
 	
-	protected function genere_response($reponse) {
-		$json=json_encode($reponse);
+	protected function genere_response($reponse, $status="success",$message="") {
+		$jsonReponse=null;
+		$jsonReponse=Array (
+		'status' => $status,
+		'data' => $reponse,
+		'message' => $message
+		);
+		//$json=json_encode($reponse);
+		$json=json_encode($jsonReponse);
 		$this->head();
 		$this->body($json);
 		return $reponse;
@@ -239,6 +246,7 @@ class AlbumManager
 	public function get($print_response = true) {
 			if ($print_response)
 				{
+				//return $this->genere_response($this->options['albums']);
 				return $this->genere_response($this->options['albums']);
 				}
 	}
