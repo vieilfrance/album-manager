@@ -20,11 +20,11 @@ $param=getParameters("/@@REP@@");
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title></title>
-        <script src="svcore/js/jquery-1.4.4.min.js"></script>
-        <script src="galleria/galleria-1.2.9.min.js"></script>
-		<link type="text/css" rel="stylesheet" href="galleria/themes/classic/galleria.classic.css">
-		        <style>
-
+        <script src="svcore/js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="<? echo $self."/include/".$param[5]; ?>.js"></script>
+		<link href="<? echo $self."/include/".$param[4]; ?>.css" rel="stylesheet" type="text/css" />
+		
+		 <style>
             /* Demo styles */
           //  html,body{background:#222;margin:0;}
          //   body{border-top:4px solid #000;}
@@ -35,37 +35,36 @@ $param=getParameters("/@@REP@@");
             .cred{margin-top:20px;font-size:11px;}
 
             /* This rule is read by Galleria to define the gallery height: */
-            #galleria{height:700px;}
-
+            .galleria{height:700px;}
         </style>
-<script type="text/javascript" src="<? echo $self."/include/".$param[5]; ?>.js"></script>
-<link href="<? echo $self."/include/".$param[4]; ?>.css" rel="stylesheet" type="text/css" />
+		
+		<script src="imagesload.js"></script>
+		<script src="galleria/galleria-1.3.5.min.js"></script>
+		<script src="galleria/themes/classic/galleria.classic.min.js"></script>
+		<script>
+			Galleria.run('.galleria', {
+			dataSource: data
+			});
+			$('body').on('contextmenu', 'img', function(e){ return false; });
+		</script>
 
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-89485-3";
-urchinTracker();
-</script>
+		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		_uacct = "UA-89485-3";
+		urchinTracker();
+		</script>
 
 </head>
 <body>
-</body>
-		<script src="imagesload.js"></script>
-        <script>
-		$("body").html("<div id='header'></div><div id='body'><div id='galleria'></div></div>");
+	<div id="header">
+	</div>
+	<div id ="body">
+		<div class="galleria"></div>
+		<div id="galleria"></div>
+	</div>
+<script>
 		$("#header").load("./../header.html");
-		//$("#body").load("/gallery.html");
-		Galleria.loadTheme('galleria/themes/classic/galleria.classic.js');
-		Galleria.configure({
-			transition: 'fade',
-			transitionSpeed: 800,
-			swipe: true
-		});
-            //Galleria.run('#galleria');
-		Galleria.run('#galleria', {
-		dataSource: data
-		});
-		$('body').on('contextmenu', 'img', function(e){ return false; });
-        </script>
+</script>
+</body>
+
 </html>
