@@ -14,20 +14,24 @@
 		height: 100%;
 		margin: 0;
 		padding: 0;
-		background-color: #333;
-		color:#FFF;
+		background-color: #6f3b4d;
+		color:#440044;
 		font-family:verdana;
-		font-size:0.8em;
+	//	font-size:0.8em;
 	}
 			
 	a {
-		color: #FFF;
+		color: #DfAbBd;
 	}
-	
+
 	#photo {
 	position:absolute; 
 	top:200px; 
 	left:30%;
+	}
+	
+	#header_smartphone {
+	display: none;
 	}
 
 .image-title {
@@ -40,31 +44,27 @@
 }
 
 .galleria-container {
-    background: #000;
+    background: #6f3b4d;
 }
 
 	body {
 		height: 100%;
 		margin: 0;
 		padding: 0;
-		background-color: #000;
-		color:#FFF;
+		background-color: #6f3b4d;
+		color:#440044;
 		font-family:verdana;
 		font-size:1em;
 	}
 			
 	#header a {
-		color: #FFF;
+		color: #DfAbBd;
 		font-size:1.3em;
 		font-weight:bold;
 	}
+
 	
 /* Responsive design */
-	
-	#header_smartphone {
-	display: none;
-	}
-
 img {
 	max-width: 100%;
 }
@@ -88,12 +88,12 @@ img {
 	}
 	
 	h2{
-	/*font: 30px Arial;*/
+	font: 30px Arial;
 	text-align: center;
 	}
 	
 a {
-background-color: #FFF;
+background-color: #C9C;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 -o-border-radius: 5px;
@@ -128,12 +128,12 @@ text-decoration: none;
 	}
 	
 	h2{
-	/*font: 30px Arial;*/
+	font: 30px Arial;
 	text-align: center;
 	}
 	
 a {
-background-color: #FFF;
+background-color: #C9C;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 -o-border-radius: 5px;
@@ -147,3 +147,5 @@ padding: 0.35em 0.65em;
 border: 1px solid rgba(0, 0, 0, 0.1);
 text-decoration: none;
 }	
+
+}

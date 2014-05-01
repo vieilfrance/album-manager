@@ -325,11 +325,30 @@ class FileManager
 	
 	protected function getExifs($filename) {
 	$exifs=array();
+	$fileExplodeExif=false;
 	if ($fileExif=exif_read_data($this->options['base_path']."/".$this->options['files']['albumname']."/easyupload/".$filename)) {
-		$fileExplodeExif=explode(":",$fileExif['DateTimeOriginal']);
-		$exifs['year']=$fileExplodeExif[0];
-		$exifs['month']=$fileExplodeExif[1];
+		if (array_key_exists('DateTimeOriginal',$fileExif))
+			$fileExplodeExif=explode(":",$fileExif['DateTimeOriginal']);
+		else
+			if (array_key_exists('DateTime',$fileExif))
+				{
+				$fileExplodeExif=explode(":",$fileExif['DateTime']);
+				$exifs['DateTimeOriginal']=$fileExif['DateTime'];
+				}
+			else
+				{
+				$fileExplodeExif = false ;
+				$exifs = false; // test en cas d'exifs inexistants
+				}
+		//print_r( $fileExif); // TODO
+		if ($fileExplodeExif) {
+			$exifs['year']=$fileExplodeExif[0];
+			$exifs['month']=$fileExplodeExif[1];
+			//$exifs['DateTimeOriginal']=$fileExif['DateTime']; // correctif. Bug en cas d'exif existant uniquement avec DateTime et pas DateTimeOriginal
+			}
 		}
+	else
+		$exifs=false;
 	return $exifs;
 	}
 	
@@ -347,6 +366,7 @@ class FileManager
 		if (isset($exifData['year'])) $file['year']=$exifData['year'];
 		if (isset($exifData['month'])) $file['month']=$exifData['month'];
 		}
+	//print_r( $file); // TODO
 	return $file;
 	}
 	
@@ -442,7 +462,8 @@ class FileManager
 		foreach ($directoryArray as $d) {
 			$directoryList.="\n<a href=\"../".$d."/\">".$this->options['month'][$d]."</a>";
 		}
-		$text=fopen($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/header.php",'w+') or die("Fichier header manquant en ecriture");
+		//$text=fopen($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/header.php",'w+') or die("Fichier header manquant en ecriture");
+		$text=fopen($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/header.html",'w+') or die("Fichier header manquant en ecriture");
 		fwrite($text,"<a href=\"..\">Retour</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$directoryList);
 		fclose($text);
 	}
@@ -507,9 +528,11 @@ class FileManager
 		
 		// Ajout du repertoire SVCORE et de son contenu
 		$this->recurse_copy($this->options['base_path'].'/admin/base/svcore',$this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/svcore");
+		$this->recurse_copy($this->options['base_path'].'/admin/base/galleria',$this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/galleria"); // ajout du player galleria
 
 		// Ajout de l'index du mois
 		copy($this->options['base_path'].'/admin/base/index.php', $this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/index.php");
+		copy($this->options['base_path'].'/admin/base/index_galleria.php', $this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/index.php");
 		}
 		
 	protected function checkGallery($topGallery, $gallery) {
@@ -583,8 +606,62 @@ protected function generatePictureXml($topGallery,$gallery) {
 						{
 						$datetime="";
 						$pictureInfo = null;
+						$exifData=$this->getExifs($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original/".$file);
+						/*
 						if($exif = exif_read_data($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original/".$file)) // Si le fichier $img contient des infos Exif
 							$datetime=$exif['DateTimeOriginal'];
+						if ($datetime)
+							$pictureInfo_temp=explode(":",$datetime);
+						else
+							{
+							$pictureInfo_temp[0]="";
+							$pictureInfo_temp[1]="";
+							}	
+							*/
+						$pictureInfo['filename']=$file;
+						//$pictureInfo['DateTimeOriginal']=$datetime;
+						if (isset($exifData['DateTimeOriginal'])) $pictureInfo['DateTimeOriginal']=$exifData['DateTimeOriginal']; else $pictureInfo['DateTimeOriginal']="";
+						if (isset($exifData['year'])) $pictureInfo['year']=$exifData['year']; else $pictureInfo['year']="" ;
+						if (isset($exifData['month'])) $pictureInfo['month']=$exifData['month']; else $pictureInfo['month']="";
+						//$pictureInfo['Year']=$pictureInfo_temp[0];
+						//$pictureInfo['Month']=$pictureInfo_temp[1];
+						if (isset($exifData['DateTimeOriginal']))
+							array_push($pictureArray,$pictureInfo);
+						}
+					}
+				}
+			usort($pictureArray, 'comparer'); // on organise les fichiers du plus récent au plus ancien avant la génération
+			foreach ($pictureArray as $file)
+				$pictureXml.="<image imageURL=\"images/".$file['filename']."\" thumbURL=\"thumbs/".$file['filename']."\">\n\t<caption>".$file['filename']." le ".$file['DateTimeOriginal']."</caption>\n</image>\n";
+			}
+		return $pictureXml;
+	}
+
+protected function generatePictureJSON($topGallery,$gallery) {
+		$picturejson="";
+		$pictureArray = Array();
+		$file = null;
+		$pictureInfo = Array();
+		$pictureInfo_temp= Array();
+		
+		if (is_dir($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original")) // Test s'il s'agit d'un repertoire
+			{
+			$dir = opendir($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original"); //ouvre le repertoire courant d?gn?ar la variable
+			while(false!==($file = readdir($dir)))
+				{
+				if (is_dir($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original/".$file) == false) // on filtre les repertoire - hack : il faut mettre le full path sinon le test ne fonctionne pas
+					{
+					if(!in_array($file, array('.','..','Thumbs.db','thumbs.db')) ) //on enleve le parent et le courant '. et ..' il faudra le mettre en param
+						{
+						$datetime="";
+						$pictureInfo = null;
+						if($exif = exif_read_data($this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/original/".$file)) // Si le fichier $img contient des infos Exif
+							{
+							if (array_key_exists('DateTimeOriginal',$exif))
+								$datetime=$exif['DateTimeOriginal'];
+							else
+								$datetime=$exif['DateTime'];
+							}
 						if ($datetime)
 							$pictureInfo_temp=explode(":",$datetime);
 						else
@@ -602,9 +679,17 @@ protected function generatePictureXml($topGallery,$gallery) {
 				}
 			usort($pictureArray, 'comparer'); // on organise les fichiers du plus récent au plus ancien avant la génération
 			foreach ($pictureArray as $file)
-				$pictureXml.="<image imageURL=\"images/".$file['filename']."\" thumbURL=\"thumbs/".$file['filename']."\">\n\t<caption>".$file['filename']." le ".$file['DateTimeOriginal']."</caption>\n</image>\n";
+			    {
+				//$picturejson.="<image imageURL=\"images/".$file['filename']."\" thumbURL=\"thumbs/".$file['filename']."\">\n\t<caption>".$file['filename']." le ".$file['DateTimeOriginal']."</caption>\n</image>\n";
+				if ($picturejson!="") { $picturejson.=",\n"; }
+				$picturejson.="{
+							thumb: 'thumbs/".$file['filename']."',
+							image: 'images/".$file['filename']."',
+							layer: '<div class=\"image-title\"><h2>".$file['filename']." @ ".$file['DateTimeOriginal']."</h2>'
+							}";
+				}
 			}
-		return $pictureXml;
+		return $picturejson;
 	}
 	
 	protected function updateGalleryXml($topGallery,$gallery) {
@@ -621,6 +706,26 @@ protected function generatePictureXml($topGallery,$gallery) {
 	fwrite($fp,$xmlFile);
 	fclose($fp);
 	}
+
+	protected function updateGalleryJSON($topGallery,$gallery) {
+	$jsonFile="";
+	$title="";
+	$jsonFile.="var data = [\n";
+	//$jsonFile.="<simpleviewergallery showOpenButton=\"FALSE\" maxImageWidth=\"720\" maxImageHeight=\"570\" textColor=\"0x000000\" frameColor=\"0xA8908D\" frameWidth=\"0\" stagePadding=\"0\" navPadding=\"10\" thumbnailColumns=\"4\" thumbnailRows=\"5\" navPosition=\"left\" vAlign=\"center\" hAlign=\"center\" title=\"".$title."\" enableRightClickOpen=\"false\" backgroundImagePath=\"\" imagePath=\"\" thumbPath=\"\">\n";
+	$jsonFile.=$this->generatePictureJSON($topGallery,$gallery);
+	$jsonFile.="];";
+
+	$file=$this->options['base_path']."/".$this->options['files']['albumname']."/".$topGallery."/".$gallery."/"."imagesload.js";
+	
+	$fp=fopen($file,"w");
+	fwrite($fp,$jsonFile);
+	fclose($fp);
+	}
+	
+	protected function fileToError($file) {
+		unlink($this->options['base_path']."/".$this->options['files']['albumname']."/easyupload/".$file['filename']); 
+	return false;
+	}
 	
 	protected function processFile($data) {
 		$this->options['xmlvars']['current_album']=$data['name'];
@@ -630,8 +735,13 @@ protected function generatePictureXml($topGallery,$gallery) {
 			$this->checkTopGallery($file['year']);
 			$this->checkGallery($file['year'], $file['month']);
 			$this->addFile($file);
-			$this->updateGalleryXml($file['year'],$file['month']);
+			//$this->updateGalleryXml($file['year'],$file['month']);
+			$this->updateGalleryJSON($file['year'],$file['month']);
 			
+			}
+		else
+			{
+			$this->fileToError($file);
 			}
 	}
 	
@@ -648,8 +758,8 @@ protected function generatePictureXml($topGallery,$gallery) {
 }
 
 	function comparer($a, $b) {
-		$dta=new DateTime($a['DateTimeOriginal']);
-		$dtb=new DateTime($b['DateTimeOriginal']);
+		$dta=new DateTime($a['DateTimeOriginal'], new DateTimeZone('Europe/Paris'));
+		$dtb=new DateTime($b['DateTimeOriginal'], new DateTimeZone('Europe/Paris'));
 		if ($dta->format('U') >$dtb->format('U'))
 			return False;
 		else

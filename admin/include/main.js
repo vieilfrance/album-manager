@@ -1,7 +1,7 @@
 function feed(index) {
 var uploadUrl = "";
 
-album=$(".page-body").data("albums")['albums'][index];
+album=$(".page-body").data("albums")['data']['albums'][index];
 $('form[editgallery] #form_name').val(album['name']);
 $('form[editgallery] #form_name_display ').html(album['name']);
 $('form[editgallery] #form_title').val(album['title']);
@@ -22,7 +22,7 @@ return true;
 function albumList(){
 	albumcount=0;
 	$(".dropdown-menu").empty();
-	$.each($(".page-body").data("albums")['albums'], function(index,value){
+	$.each($(".page-body").data("albums")['data']['albums'], function(index,value){
 		$(".dropdown-menu").append('<li><a tabindex="-1" href="#" id="album'+albumcount+'" onclick="return feed('+albumcount+');">'+value['name']+'</li>');
 		albumcount++;
 	});
@@ -35,7 +35,7 @@ $.ajax({
   context: $(".page-body")
 }).done(function(data) {
 	$(this).data("albums",data);
-	if ($(this).data("albums")['albumcount']==0) { $(".page-body").append($(".no-album"));}
+	if ($(this).data("albums")['data']['albumcount']==0) { $(".page-body").append($(".no-album"));}
 	else {$(".page-body").append($(".album"));}
 	})
 .fail(function() { alert("Erreur : impossible de contacter le serveur"); });
@@ -49,13 +49,13 @@ jQuery(function($) {
 
 $("#modal-edit").on('show', function(){
   albumList();
- $("albumname").html($(".page-body").data("albums")['albums'][0]['name']);
+ $("albumname").html($(".page-body").data("albums")['data']['albums'][0]['name']);
  feed(0);
 });
 
 $("#modal-admin").on('show', function(){
   albumList();
- $("albumname").html($(".page-body").data("albums")['albums'][0]['name']);
+ $("albumname").html($(".page-body").data("albums")['data']['albums'][0]['name']);
  feed(0);
 });
 
