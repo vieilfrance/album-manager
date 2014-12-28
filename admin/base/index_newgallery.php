@@ -16,6 +16,7 @@ $param=getParameters("/@@REP@@");
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title><? echo $param[1]; ?></title>
 		<link href="<? echo $self."/include/".$param[4]; ?>.css" rel="stylesheet" type="text/css" />
 	
