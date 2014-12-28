@@ -42,6 +42,9 @@ $param=getParameters("/@@REP@@");
 		<script src="galleria/galleria-1.3.5.min.js"></script>
 		<script src="galleria/themes/classic/galleria.classic.min.js"></script>
 		<script>
+			Galleria.configure({
+			thumbnails: "false"
+			});
 			Galleria.run('.galleria', {
 			dataSource: data
 			});
